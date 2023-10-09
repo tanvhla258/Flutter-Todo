@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/screens/home.dart';
+import 'package:todo/widgets/todo_list.dart';
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 247, 242, 250));
@@ -13,9 +13,6 @@ final theme = ThemeData(
     seedColor: const Color.fromARGB(255, 247, 242, 250),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
-  appBarTheme: const AppBarTheme().copyWith(
-      backgroundColor: kColorScheme.onPrimaryContainer,
-      foregroundColor: kColorScheme.primaryContainer),
   cardTheme: const CardTheme().copyWith(
       color: kColorScheme.secondaryContainer, margin: const EdgeInsets.all(16)),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -33,7 +30,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: theme, home: const Home());
+    return MaterialApp(theme: theme, home: const TodoList());
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/widgets/todo_item.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({super.key});
@@ -8,6 +9,23 @@ class NewTodo extends StatefulWidget {
 }
 
 class _NewTodoState extends State<NewTodo> {
+  final _formKey = GlobalKey<FormState>();
+  var _enteredTitle = '';
+  var _enteredDetails = '';
+
+  void _saveItem() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      Navigator.of(context).pop(TodoItem(
+        id: DateTime.now().toString(),
+        title: _enteredTitle,
+        createAt: DateTime.now(),
+        details: _enteredDetails,
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,21 +33,57 @@ class _NewTodoState extends State<NewTodo> {
       body: Padding(
           padding: const EdgeInsets.all(12),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 TextFormField(
-                  maxLength: 50,
+                  maxLength: 10,
                   decoration: const InputDecoration(label: Text('Title')),
                   validator: (value) {
-                    return 'Demo..';
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.trim().length <= 1 ||
+                        value.trim().length > 10) {
+                      return 'Must be between 1 and 10 characters';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _enteredTitle = value!;
                   },
                 ),
+                const SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  maxLength: 50,
+                  decoration: const InputDecoration(label: Text('Details')),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.trim().length <= 1 ||
+                        value.trim().length > 50) {
+                      return 'Must be between 1 and 50 characters';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _enteredDetails = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Expanded(
-                        child: InputDatePickerFormField(
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now())),
+                    TextButton(
+                        onPressed: () {
+                          _formKey.currentState!.reset();
+                        },
+                        child: const Text('Reset')),
+                    ElevatedButton(
+                        onPressed: _saveItem, child: const Text('Add Item'))
                   ],
                 )
               ],
