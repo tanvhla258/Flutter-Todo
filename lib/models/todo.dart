@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Todo {
-  const Todo({
+  Todo({
     required this.id,
     required this.title,
     required this.details,
     required this.createAt,
-    this.isDone = false,
+    required this.isDone,
   });
   final String id;
   final String title;
   final String details;
   final DateTime createAt;
-  final bool isDone;
+  bool isDone;
+
+  void toggleStatus() {
+    isDone = !isDone;
+  }
 }

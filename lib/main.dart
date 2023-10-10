@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/widgets/todo_list.dart';
 
 var kColorScheme =
-    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 247, 242, 250));
+    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 119, 132, 251));
 final theme = ThemeData(
   useMaterial3: false,
   colorScheme: ColorScheme.fromSeed(

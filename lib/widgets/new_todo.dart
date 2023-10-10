@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/models/todo.dart';
 import 'package:todo/widgets/todo_item.dart';
 
 class NewTodo extends StatefulWidget {
@@ -17,12 +18,15 @@ class _NewTodoState extends State<NewTodo> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      Navigator.of(context).pop(TodoItem(
-        id: DateTime.now().toString(),
-        title: _enteredTitle,
-        createAt: DateTime.now(),
-        details: _enteredDetails,
-      ));
+      Navigator.of(context).pop(
+        Todo(
+          id: DateTime.now().toString(),
+          title: _enteredTitle,
+          createAt: DateTime.now(),
+          details: _enteredDetails,
+          isDone: false,
+        ),
+      );
     }
   }
 

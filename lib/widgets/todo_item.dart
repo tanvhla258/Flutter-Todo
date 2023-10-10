@@ -1,42 +1,58 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/models/todo.dart';
 
 final formatter = DateFormat.yMd();
 
-class TodoItem extends StatelessWidget {
-  const TodoItem(
-      {super.key,
-      required this.id,
-      required this.title,
-      required this.details,
-      required this.createAt,
-      this.isDone = false});
+class TodoItem extends StatefulWidget {
+  const TodoItem({super.key, required this.togglecheck, required this.todo});
+  final void Function(Todo) togglecheck;
 
-  final String id;
-  final String details;
+  final Todo todo;
+  @override
+  _TodoItemState createState() => _TodoItemState();
+}
 
-  final String title;
-  final DateTime createAt;
-  final bool isDone;
-
+class _TodoItemState extends State<TodoItem> {
   @override
   Widget build(BuildContext context) {
+    final Todo todo = widget.todo;
+    final toggleCheck = widget.togglecheck;
+
+    // Access todo using widget.todo
+    // Access todo using widget.todo
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      child: Row(
-        children: [
-          Checkbox(value: isDone, onChanged: (isChecked) {}),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              Text(formatter.format(createAt),
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary)),
-            ],
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            Checkbox(
+                value: todo.isDone,
+                onChanged: (isChecked) {
+                  setState(() {
+                    toggleCheck(todo);
+                  });
+                }),
+            const SizedBox(
+              width: 12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                    todo.title),
+                Text(formatter.format(todo.createAt),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.primary)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
